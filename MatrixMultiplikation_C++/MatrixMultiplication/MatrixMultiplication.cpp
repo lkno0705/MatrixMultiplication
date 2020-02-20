@@ -3,6 +3,11 @@
 #include "Matrix.h"
 #include <iostream>
 
+void a(Matrix::matrix* matrixPtr) {
+    matrixPtr->createRandomMatrix();
+    return;
+}
+
 int main()
 {
     std::cout << "Hello World!\n";
@@ -10,21 +15,19 @@ int main()
     Matrix::matrix matrixA;
     Matrix::matrix matrixB;
     Matrix::matrix matrixC;
+	Matrix::matrix *matrixCPtr;
 
     matrixA.createRandomMatrix();
     matrixB.createRandomMatrix();
-    matrixC = a(); //This doesn't work! WHY?
+	matrixCPtr = &matrixC; //Pointer verweist auf den Speicher einer anderen Variable
+
+	a(matrixCPtr);
 
     matrixA.print();
     matrixB.print();
+	matrixC.print();
     
 
-}
-
-Matrix::matrix a() {
-    Matrix::matrix matrixC;
-    matrixC.createRandomMatrix();
-    return matrixC;
 }
 
 // Programm ausführen: STRG+F5 oder "Debuggen" > Menü "Ohne Debuggen starten"
