@@ -1,11 +1,13 @@
 #pragma once
+#include <vector>
+
 namespace Matrix {
 	class matrix {
 	public:
-		const int n = 10;
-		const int m = 10;
-		int matrix[10][10];
-		void createRandomMatrix();
+		int n;
+		int m;
+		std::vector<std::vector<long>> matrix;
+		void createRandomMatrix(int m, int n);
 		void print();
 	};
 }
