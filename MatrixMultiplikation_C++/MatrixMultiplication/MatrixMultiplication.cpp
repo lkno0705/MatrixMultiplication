@@ -2,50 +2,81 @@
 //
 #include "Matrix.h"
 #include <iostream>
-#include <ctime>
+#include <chrono>
+#include <thread>
 
-void a(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr) {
-    
-    for (int i = 0; i < Aptr->m; i++){
-        Cptr->matrix.push_back({});
+using namespace std::chrono;
+
+void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr,int upperbound,int lowerbound = 0) {
+
+    for (int i = lowerbound; i < upperbound; i++){
 
         for (int k = 0; k < Bptr->n; k++){
-            Cptr->matrix[i].push_back({});
 
             for (int j = 0; j < Aptr->n; j++){
                 Cptr->matrix[i][k] += Aptr->matrix[i][j] * Bptr->matrix[j][k];
-                std::cout << "running..."<<i;
+                //std::cout << "running..."<<i;
             }
         }
     }
     return;
 }
 
+void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr) {
+    std::thread threadarr[24];
+    int step = Aptr->m / 24;
+    int upperbound;
+    for (int i = 0; i < 24; i++)
+    {
+        if (i == 23)
+        {
+            upperbound = Aptr->m;
+        }
+        else
+        {
+            upperbound = (i + 1) * step;
+        }
+        threadarr[i] = std::thread(matrixmult, Cptr, Aptr, Bptr, upperbound, (i*step));
+    }
+    std::cout << "\n[*] Threads running...";
+    for (int i = 0; i < 24; i++)
+    {
+        threadarr[i].join();
+    }
+    std::cout << "\n[+] Threads completed!";
+}
+
 int main()
 {
-    std::cout << "Matrix multiplication\n";
+    //TODO: Malloc to transfer Array to Heap
 
-    int mA = 50;
-    int nA = 50;
-    int mB = nA;
-    int nB = 50;
-    time_t startWOT, stopWOT;
+    std::cout << "Matrix multiplication\n";
+    /*time_t startWOT, stopWOT, startWT, stopWT;*/
 
     Matrix::matrix matrixA;
     Matrix::matrix matrixB;
-    Matrix::matrix matrixC;
-	Matrix::matrix *matrixCPtr = &matrixC; //Pointer verweist auf den Speicher einer anderen Variable
+    Matrix::matrix matrixCWT;
+    Matrix::matrix matrixCWOT;
+	Matrix::matrix *matrixCWOTPtr = &matrixCWOT; //Pointer verweist auf den Speicher einer anderen Variable
     Matrix::matrix *matrixAPtr = &matrixA;
-    Matrix::matrix* matrixBPtr = &matrixB;
+    Matrix::matrix *matrixBPtr = &matrixB;
+    Matrix::matrix* matrixCWTPtr = &matrixCWT;
 
-    matrixA.createRandomMatrix(mA, nA);
-    matrixB.createRandomMatrix(mB, nB);
+    matrixA.createRandomMatrix();
+    matrixB.createRandomMatrix();
+    matrixCWT.createEmptyMatrix();
+    matrixCWOT.createEmptyMatrix();
 
-    time(&startWOT);
-	a(matrixCPtr, matrixAPtr, matrixBPtr);
-    time(&stopWOT);
-    double durationWOT = double(stopWOT - startWOT);
-    std::cout << durationWOT << " seconds";
+    auto startWOT = high_resolution_clock::now();
+	matrixmult(matrixCWOTPtr, matrixAPtr, matrixBPtr, matrixAPtr->m);
+    auto stopWOT = high_resolution_clock::now();
+    //double durationWOT = double(stopWOT - startWOT);
+    std::cout << "\n[+] Single Core calculation finished \n[+] Duration: " << duration<double> (stopWOT - startWOT).count() << " seconds";
+
+    auto startWT = high_resolution_clock::now();
+    threadedmult(matrixCWTPtr, matrixAPtr, matrixBPtr);
+    auto stopWT = high_resolution_clock::now();
+    std::cout << "\n[+] Multithreaded calculation finished \n[+] Duration: " << duration<double>(stopWT - startWT).count() << " seconds";
 
     //   matrixA.print();
     //   matrixB.print();

@@ -5,22 +5,26 @@
 using namespace Matrix;
 
 
-	void matrix::createRandomMatrix(int lm, int ln) {
-		m = lm;
-		n = ln;
-
+	void matrix::createRandomMatrix() {
 		for (int r = 0; r < m; r++) {
-			matrix.push_back({});
 
 			for (int c = 0; c < n; c++) {
-				matrix[r].push_back(rand() % 10);
+				matrix[r][c] = rand() % 10;
+			}
+		}
+	}
+
+	void matrix::createEmptyMatrix() {
+		for (int r = 0; r < m; r++) {
+			for (int c = 0; c < n; c++) {
+				matrix[r][c] = 0;
 			}
 		}
 	}
 
 	void matrix::print() {
-		for (int r = 0; r < matrix.size(); r++) {
-			for (int c = 0; c < matrix[r].size(); c++) {
+		for (int r = 0; r < m; r++) {
+			for (int c = 0; c < n; c++) {
 				std::cout << matrix[r][c] << " ";
 			}
 			std::cout << "\n";

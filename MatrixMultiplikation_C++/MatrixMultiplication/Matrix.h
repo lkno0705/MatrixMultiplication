@@ -4,10 +4,11 @@
 namespace Matrix {
 	class matrix {
 	public:
-		int n;
-		int m;
-		std::vector<std::vector<long>> matrix;
-		void createRandomMatrix(int m, int n);
+		const static int n = 1440;
+		const static int m = 1440;
+		long matrix[1440][1440];
+		void createRandomMatrix();
 		void print();
+		void createEmptyMatrix();
 	};
 }
