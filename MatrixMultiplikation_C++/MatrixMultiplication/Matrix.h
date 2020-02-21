@@ -4,8 +4,8 @@
 namespace Matrix {
 	class matrix {
 	public:
-		const static int n = 10;
-		const static int m = 10;
+		const static int n = 1440;
+		const static int m = 1440;
 		long *matrix;
 		void createRandomMatrix();
 		void print();
