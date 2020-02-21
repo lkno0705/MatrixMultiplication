@@ -14,7 +14,7 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
         for (int k = 0; k < Bptr->n; k++){
 
             for (int j = 0; j < Aptr->n; j++){
-                Cptr->matrix[i][k] += Aptr->matrix[i][j] * Bptr->matrix[j][k];
+                Cptr->matrix[Bptr->n * i + k] += Aptr->matrix[Aptr->n * i + j] * Bptr->matrix[Bptr->n * j + k];
                 //std::cout << "running..."<<i;
             }
         }
@@ -81,6 +81,12 @@ int main()
     //matrixA.print();
     //matrixB.print();
     //matrixCWT.print();
+
+    matrixA.deleteMatrix();
+    matrixB.deleteMatrix();
+    matrixCWT.deleteMatrix();
+
+    
     
 
 }

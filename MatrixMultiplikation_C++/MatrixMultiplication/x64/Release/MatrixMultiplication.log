@@ -1,8 +1,7 @@
-﻿  Matrix.cpp
-  MatrixMultiplication.cpp
-  Generating code
-  5 of 188 functions ( 2.7%) were compiled, the rest were copied from previous compilation.
+﻿  MatrixMultiplication.cpp
+  Code wird generiert.
+  8 of 76 functions (10.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  MatrixMultiplication.vcxproj -> C:\Users\i516998\Documents\MatrixMultiplication\MatrixMultiplikation_C++\MatrixMultiplication\x64\Release\MatrixMultiplication.exe
+    2 functions had inline decision re-evaluated but remain unchanged
+  Codegenerierung ist abgeschlossen.
+  MatrixMultiplication.vcxproj -> E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_C++\MatrixMultiplication\x64\Release\MatrixMultiplication.exe
