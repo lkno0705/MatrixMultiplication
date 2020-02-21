@@ -23,12 +23,12 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
 }
 
 void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr) {
-    std::thread threadarr[24];
-    int step = Aptr->m / 24;
+    std::thread threadarr[8];
+    int step = Aptr->m / 8;
     int upperbound;
-    for (int i = 0; i < 24; i++)
+    for (int i = 0; i < 8; i++)
     {
-        if (i == 23)
+        if (i == 7)
         {
             upperbound = Aptr->m;
         }
@@ -39,7 +39,7 @@ void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bp
         threadarr[i] = std::thread(matrixmult, Cptr, Aptr, Bptr, upperbound, (i*step));
     }
     std::cout << "\n[*] Threads running...";
-    for (int i = 0; i < 24; i++)
+    for (int i = 0; i < 8; i++)
     {
         threadarr[i].join();
     }
@@ -48,8 +48,6 @@ void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bp
 
 int main()
 {
-    //TODO: Malloc to transfer Array to Heap
-
     std::cout << "Matrix multiplication\n";
     /*time_t startWOT, stopWOT, startWT, stopWT;*/
 
@@ -67,20 +65,22 @@ int main()
     matrixCWT.createEmptyMatrix();
     matrixCWOT.createEmptyMatrix();
 
+    std::cout << "\n[+] Single Core calculation started. \n[*] Calculating...";
     auto startWOT = high_resolution_clock::now();
 	matrixmult(matrixCWOTPtr, matrixAPtr, matrixBPtr, matrixAPtr->m);
     auto stopWOT = high_resolution_clock::now();
     //double durationWOT = double(stopWOT - startWOT);
     std::cout << "\n[+] Single Core calculation finished \n[+] Duration: " << duration<double> (stopWOT - startWOT).count() << " seconds";
 
+    std::cout << "\n[+] Multithreaded calculation started. \n[*] Calculating...";
     auto startWT = high_resolution_clock::now();
     threadedmult(matrixCWTPtr, matrixAPtr, matrixBPtr);
     auto stopWT = high_resolution_clock::now();
     std::cout << "\n[+] Multithreaded calculation finished \n[+] Duration: " << duration<double>(stopWT - startWT).count() << " seconds";
 
-    //   matrixA.print();
-    //   matrixB.print();
-    //   matrixC.print();
+    //matrixA.print();
+    //matrixB.print();
+    //matrixCWT.print();
     
 
 }

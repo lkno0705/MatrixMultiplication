@@ -7,8 +7,9 @@ using namespace Matrix;
 
 	void matrix::createRandomMatrix() {
 		for (int r = 0; r < m; r++) {
-
+			matrix.push_back({});
 			for (int c = 0; c < n; c++) {
+				matrix[r].push_back({});
 				matrix[r][c] = rand() % 10;
 			}
 		}
@@ -16,7 +17,9 @@ using namespace Matrix;
 
 	void matrix::createEmptyMatrix() {
 		for (int r = 0; r < m; r++) {
+			matrix.push_back({});
 			for (int c = 0; c < n; c++) {
+				matrix[r].push_back({});
 				matrix[r][c] = 0;
 			}
 		}
