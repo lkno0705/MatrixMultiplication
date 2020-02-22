@@ -14,25 +14,15 @@ using namespace std::chrono;
 // => 0, 1, 2, 3, 4, 5
 // => numberOfColumns * currentRow + currentColumn
 
-__global__ void matrixmult(float* Cptr, float* Aptr, float* Bptr, int* m, int* n) {
+__global__ void matrixmult(float* Cptr, float* Aptr, float* Bptr, int m, int n) {
 	// blockDim.x = number of threads in the current Block
 	// threadIdx.x = index of current thread
-	int step = *m / blockDim.x;
-	int lowerbound = step * threadIdx.x ;
-	int upperbound;
-	if (threadIdx.x == blockDim.x - 1) {
-		upperbound = *m;
-	}
-	else
-	{
-		upperbound = (threadIdx.x + 1) * step;
-	}
-
-	for (int i = lowerbound; i < upperbound; i++) {
-		for (int k = 0; k < *n; k++) {
-			for (int j = 0; j < *n; j++) {
-				Cptr[*n * i + k] += Aptr[*n * i + j] * Bptr[*n * j + k];
-			}
+	int Cidx = blockIdx.x * blockDim.x + threadIdx.x; // ^= n * i + k
+	int i = Cidx / n;
+	int k = Cidx - n * i;
+	if (n * m > Cidx) {
+		for (int j = 0; j < n; j++) {
+			Cptr[Cidx] += Aptr[n * i + j] * Bptr[n * j + k];
 		}
 	}
 }
@@ -73,10 +63,9 @@ void deleteMatrix(float* matrix) {
 
 int main() {
 
-	int m = 1440;
-	int n = 1440;
-	int upperbound;
-	int lowerbound;
+	int m = 14400;
+	int n = 14400;
+	int block_size = 512;
 	
 	//float pointer initialisieren und Speicher für den Array reservieren
 	float* matrixA = (float*)malloc(m * n);
@@ -86,10 +75,6 @@ int main() {
 	float* d_matrixA;
 	float* d_matrixB;
 	float* d_matrixC;
-	int* d_m;
-	int* d_n;
-	/*int* d_lowerbound;
-	int* d_upperbound;*/
 
 	/*lowerbound = 0;
 	upperbound = m;*/
@@ -101,8 +86,6 @@ int main() {
 	cudaMalloc(&d_matrixA, (m * n) * sizeof(float));
 	cudaMalloc(&d_matrixB, (m * n) * sizeof(float));
 	cudaMalloc(&d_matrixC, (m * n) * sizeof(float));
-	cudaMalloc(&d_m, sizeof(int));
-	cudaMalloc(&d_n, sizeof(int));
 	//cudaMalloc(&d_lowerbound, sizeof(int));
 	//cudaMalloc(&d_upperbound, sizeof(int));
 
@@ -112,14 +95,14 @@ int main() {
 	cudaMemcpy(d_matrixA, matrixA, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_matrixB, matrixB, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_matrixC, h_matrixC, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
-	cudaMemcpy(d_m, &m, sizeof(int), cudaMemcpyHostToDevice);
-	cudaMemcpy(d_n, &n, sizeof(int), cudaMemcpyHostToDevice);
 	//cudaMemcpy(d_lowerbound, &lowerbound, sizeof(int), cudaMemcpyHostToDevice);
 	//cudaMemcpy(d_upperbound, &upperbound, sizeof(int), cudaMemcpyHostToDevice);
 
+	int Blocks = ((n*m) + block_size - 1) / block_size;
+	std::cout << "[+] Calculation started with " << (Blocks * block_size) << " Threads";
 	auto start = high_resolution_clock::now();
 	//Run Kernel on GPU
-	matrixmult <<<1, 256 >>> (d_matrixC, d_matrixA, d_matrixB, d_m, d_n);
+	matrixmult <<<Blocks, block_size >>> (d_matrixC, d_matrixA, d_matrixB, m, n);
 
 	//Wait for GPU to finish
 	cudaDeviceSynchronize();
@@ -134,8 +117,6 @@ int main() {
 	cudaFree(d_matrixA);
 	cudaFree(d_matrixB);
 	cudaFree(d_matrixC);
-	cudaFree(d_m);
-	cudaFree(d_n);
 	
 	delete[] matrixA;
 	delete[] matrixB;

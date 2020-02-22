@@ -1,14 +1,17 @@
 ﻿  Compiling CUDA source file MatrixMult.cu...
   
   E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc142.pdb /FS /Zi  /MD " -o x64\Release\MatrixMult.cu.obj "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu" 
-E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(78): warning : variable "upperbound" was declared but never referenced
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(68): warning : variable "upperbound" was declared but never referenced
   
-E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(79): warning : variable "lowerbound" was declared but never referenced
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(69): warning : variable "lowerbound" was declared but never referenced
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(70): warning : variable "threads" was declared but never referenced
   
   MatrixMult.cu
-E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(44): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(79): warning C4101: "lowerbound": Unreferenzierte lokale Variable
-E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(78): warning C4101: "upperbound": Unreferenzierte lokale Variable
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(34): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(70): warning C4101: "threads": Unreferenzierte lokale Variable
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(69): warning C4101: "lowerbound": Unreferenzierte lokale Variable
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(68): warning C4101: "upperbound": Unreferenzierte lokale Variable
      Bibliothek "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.lib" und Objekt "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.exp" werden erstellt.
   LINK : /LTCG wurde angegeben, es ist jedoch keine Codegenerierung erforderlich. Entfernen Sie /LTCG aus der Linkbefehlszeile, um die Linkerleistung zu erhöhen.
   matrixMultiplikation_CUDA.vcxproj -> E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.exe
