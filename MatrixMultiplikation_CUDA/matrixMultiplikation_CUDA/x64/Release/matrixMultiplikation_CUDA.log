@@ -1,0 +1,36 @@
+﻿  Compiling CUDA source file MatrixMult.cu...
+  
+  E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc142.pdb /FS /Zi  /MD " -o x64\Release\MatrixMult.cu.obj "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu" 
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(15): warning : argument is incompatible with corresponding format string conversion
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(22): warning : argument is incompatible with corresponding format string conversion
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(82): warning : variable "m" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(82): warning : variable "n" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(94): warning : variable "matrixA" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(95): warning : variable "matrixB" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(96): warning : variable "matrixC" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(82): warning : variable "m" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(82): warning : variable "n" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(94): warning : variable "matrixA" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(95): warning : variable "matrixB" is used before its value is set
+  
+E:/Programs/MatrixMultiplication-master/MatrixMultiplikation_CUDA/matrixMultiplikation_CUDA/MatrixMult.cu(96): warning : variable "matrixC" is used before its value is set
+  
+  MatrixMult.cu
+E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu(82): warning C4700: Die nicht initialisierte lokale Variable "m" wurde verwendet.
+E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu(82): warning C4700: Die nicht initialisierte lokale Variable "n" wurde verwendet.
+E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu(94): warning C4700: Die nicht initialisierte lokale Variable "matrixA" wurde verwendet.
+E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu(95): warning C4700: Die nicht initialisierte lokale Variable "matrixB" wurde verwendet.
+E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\MatrixMult.cu(96): warning C4700: Die nicht initialisierte lokale Variable "matrixC" wurde verwendet.
+     Bibliothek "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.lib" und Objekt "E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.exp" werden erstellt.
+  LINK : /LTCG wurde angegeben, es ist jedoch keine Codegenerierung erforderlich. Entfernen Sie /LTCG aus der Linkbefehlszeile, um die Linkerleistung zu erhöhen.
+  matrixMultiplikation_CUDA.vcxproj -> E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_CUDA\matrixMultiplikation_CUDA\x64\Release\matrixMultiplikation_CUDA.exe
