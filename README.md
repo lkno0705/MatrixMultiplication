@@ -1,8 +1,19 @@
 # MatrixMultiplication
 Just a little playground, to test and try the benefits of Running Calculations on CPU or GPU with multiple threads.
 
-TODO:
-* Implement the basic algorithm in CUDA to run it on NVIDIA GPUs. (Processing....)
-* Implement NVIDIAs matrix multiplication algortihm in CUDA.
-* Implement Strassen matrix multiplication algorithm in Java.
-* Compare Runtimes.
+Compared Runtimes.
+---
+
+Java: <br>
+___________________
+Single: 7.769 s <br>
+Threads: 1.124 s
+
+C++ <br>
+_______________________
+Single:  2.21483 s <br>
+Threads: 0.460356 s
+
+CUDA
+__________________
+Threaded: 21.499 ms
