@@ -5,14 +5,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <chrono>
+
+using namespace std::chrono;
 
 // 0,0 0,1 0,2
 // 1,0 1,1 1,2
 // => 0, 1, 2, 3, 4, 5
 // => numberOfColumns * currentRow + currentColumn
 
-__global__ void matrixmult(float* Cptr, float* Aptr, float* Bptr, int* m, int* n, int* upperbound, int *lowerbound) {
-	for (int i = *lowerbound; i < *upperbound; i++) {
+__global__ void matrixmult(float* Cptr, float* Aptr, float* Bptr, int* m, int* n) {
+	// blockDim.x = number of threads in the current Block
+	// threadIdx.x = index of current thread
+	int step = *m / blockDim.x;
+	int lowerbound = step * threadIdx.x ;
+	int upperbound;
+	if (threadIdx.x == blockDim.x - 1) {
+		upperbound = *m;
+	}
+	else
+	{
+		upperbound = (threadIdx.x + 1) * step;
+	}
+
+	for (int i = lowerbound; i < upperbound; i++) {
 		for (int k = 0; k < *n; k++) {
 			for (int j = 0; j < *n; j++) {
 				Cptr[*n * i + k] += Aptr[*n * i + j] * Bptr[*n * j + k];
@@ -25,7 +41,7 @@ float* createRandomMatrix(float *matrix, int m, int n) {
 	matrix = new float[m * n];
 	for (int r = 0; r < m; r++) {
 		for (int c = 0; c < n; c++) {
-			matrix[n * r + c] = static_cast <float> (rand() % 10);
+			matrix[n * r + c] = static_cast <float> (rand() % 10) / 1.0;
 		}
 	}
 	return matrix;
@@ -35,7 +51,7 @@ float* createEmptyMatrix(float* matrix, int m, int n) {
 	matrix = new float[m * n];
 	for (int r = 0; r < m; r++) {
 		for (int c = 0; c < n; c++) {
-			matrix[n * r + c] = 0;
+			matrix[n * r + c] = 0.0;
 		}
 	}
 	return matrix;
@@ -57,68 +73,62 @@ void deleteMatrix(float* matrix) {
 
 int main() {
 
-	int m;
-	int n;
+	int m = 1440;
+	int n = 1440;
 	int upperbound;
 	int lowerbound;
 	
-	float* matrixA;
-	float* matrixB;
-	float* matrixC;
+	//float pointer initialisieren und Speicher für den Array reservieren
+	float* matrixA = (float*)malloc(m * n);
+	float* matrixB = (float*)malloc(m * n);
+	float* h_matrixC = (float*)malloc(m * n);
 
 	float* d_matrixA;
 	float* d_matrixB;
 	float* d_matrixC;
 	int* d_m;
 	int* d_n;
-	int* d_lowerbound;
-	int* d_upperbound;
+	/*int* d_lowerbound;
+	int* d_upperbound;*/
 
-	//Allocate space for device copies
-	cudaMalloc((void**)&d_matrixA, (m * n) * sizeof(float));
-	cudaMalloc((void**)&d_matrixB, (m * n) * sizeof(float));
-	cudaMalloc((void**)&d_matrixC, (m * n) * sizeof(float));
-	cudaMalloc((void**)&d_m, sizeof(int));
-	cudaMalloc((void**)&d_n, sizeof(int));
-	cudaMalloc((void**)&d_lowerbound, sizeof(int));
-	cudaMalloc((void**)&d_upperbound, sizeof(int));
-
-	m = 10;
-	n = 10;
-	lowerbound = 0;
-	upperbound = m;
+	/*lowerbound = 0;
+	upperbound = m;*/
 	matrixA = createRandomMatrix(matrixA, m, n);
 	matrixB = createRandomMatrix(matrixB, m, n);
-	matrixC = createEmptyMatrix(matrixC, m, n);
+	h_matrixC = createEmptyMatrix(h_matrixC, m, n);
 
-	/*print(matrixA, m, n);
-	print(matrixB, m, n);*/
+	//Allocate space for device copies in device memory
+	cudaMalloc(&d_matrixA, (m * n) * sizeof(float));
+	cudaMalloc(&d_matrixB, (m * n) * sizeof(float));
+	cudaMalloc(&d_matrixC, (m * n) * sizeof(float));
+	cudaMalloc(&d_m, sizeof(int));
+	cudaMalloc(&d_n, sizeof(int));
+	//cudaMalloc(&d_lowerbound, sizeof(int));
+	//cudaMalloc(&d_upperbound, sizeof(int));
+
+	//print(matrixA, m, n);
+	//print(matrixB, m, n);
 
 	cudaMemcpy(d_matrixA, matrixA, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_matrixB, matrixB, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
-	cudaMemcpy(d_matrixC, matrixC, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
+	cudaMemcpy(d_matrixC, h_matrixC, (m * n) * sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_m, &m, sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_n, &n, sizeof(int), cudaMemcpyHostToDevice);
-	cudaMemcpy(d_lowerbound, &lowerbound, sizeof(int), cudaMemcpyHostToDevice);
-	cudaMemcpy(d_upperbound, &upperbound, sizeof(int), cudaMemcpyHostToDevice);
+	//cudaMemcpy(d_lowerbound, &lowerbound, sizeof(int), cudaMemcpyHostToDevice);
+	//cudaMemcpy(d_upperbound, &upperbound, sizeof(int), cudaMemcpyHostToDevice);
 
-
+	auto start = high_resolution_clock::now();
 	//Run Kernel on GPU
-	matrixmult <<<1, 1 >>> (d_matrixC, d_matrixA, d_matrixB, d_m, d_n, d_upperbound, d_lowerbound);
+	matrixmult <<<1, 256 >>> (d_matrixC, d_matrixA, d_matrixB, d_m, d_n);
 
 	//Wait for GPU to finish
 	cudaDeviceSynchronize();
+	auto stop = high_resolution_clock::now();
 
-	/*matrixC = matrixmult(matrixC, matrixA, matrixB, m, n, m);*/
-	cudaMemcpy(matrixA, d_matrixA, (m * n) * sizeof(float), cudaMemcpyDeviceToHost);
-	cudaMemcpy(matrixB, d_matrixB, (m * n) * sizeof(float), cudaMemcpyDeviceToHost);
-	cudaMemcpy(matrixC, d_matrixC, (m * n) * sizeof(float), cudaMemcpyDeviceToHost);
-	/*cudaMemcpy(&m, d_m, sizeof(int), cudaMemcpyDeviceToHost);
-	cudaMemcpy(&n, d_n, sizeof(int), cudaMemcpyDeviceToHost);*/
+	cudaMemcpy(h_matrixC, d_matrixC, (m * n) * sizeof(float), cudaMemcpyDeviceToHost);
+	std::cout << "\n[+] Single Core calculation finished \n[+] Duration: " << duration<double>(stop - start).count() << " seconds";
 
-
-
-	print(matrixC, m, n); //ALWAYS 00000... WHY?!
+	/*print(h_matrixC, m, n);*/
 
 	//Free memory
 	cudaFree(d_matrixA);
@@ -127,4 +137,7 @@ int main() {
 	cudaFree(d_m);
 	cudaFree(d_n);
 	
+	delete[] matrixA;
+	delete[] matrixB;
+	delete[] h_matrixC;
 }
