@@ -1,27 +1,30 @@
 package matrixmult;
 
-public class MatrixThreadrunner implements Runnable {
-    private Matrix matrixC;
+public class MatrixThreadRunner implements Runnable {
     private Matrix matrixA;
     private Matrix matrixB;
     private int upperBound;
     private int lowerBound;
 
-    MatrixThreadrunner(Matrix matrixA, Matrix matrixB, Matrix matrixC, int upperBound, int lowerBound) {
+    MatrixThreadRunner(Matrix matrixA, Matrix matrixB, int upperBound, int lowerBound) {
         this.matrixA = matrixA;
         this.matrixB = matrixB;
-        this.matrixC = matrixC;
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
     }
 
     public void run() {
-        for (int i = this.lowerBound; i < this.upperBound; i++) {
-            for (int k = 0; k < this.matrixB.n; k++) {
-                for (int j = 0; j < this.matrixA.n; j++) {
-                    this.matrixC.matrix[i][k] += this.matrixA.matrix[i][j] * this.matrixB.matrix[j][k];
+        try {
+            Matrix matrixC = new Matrix(matrixA.getMatrix().length, matrixA.getMatrix()[0].length);
+            for (int i = lowerBound; i < upperBound; i++) {
+                for (int k = 0; k < matrixB.getMatrix().length; k++) {
+                    for (int j = 0; j < matrixA.getMatrix().length; j++) {
+                        matrixC.getMatrix()[i][k] += matrixA.getMatrix()[i][j] * matrixB.getMatrix()[j][k];
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
