@@ -14,7 +14,7 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
         for (int k = 0; k < Bptr->n; k++){
 
             for (int j = 0; j < Aptr->n; j++){
-                Cptr->matrix[i][k] += Aptr->matrix[i][j] * Bptr->matrix[j][k];
+                Cptr->matrix[Bptr->n * i + k] += Aptr->matrix[Aptr->n * i + j] * Bptr->matrix[Bptr->n * j + k];
                 //std::cout << "running..."<<i;
             }
         }
@@ -23,12 +23,12 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
 }
 
 void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr) {
-    std::thread threadarr[8];
-    int step = Aptr->m / 8;
+    std::thread threadarr[24];
+    int step = Aptr->m / 24;
     int upperbound;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 24; i++)
     {
-        if (i == 7)
+        if (i == 23)
         {
             upperbound = Aptr->m;
         }
@@ -39,7 +39,7 @@ void threadedmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bp
         threadarr[i] = std::thread(matrixmult, Cptr, Aptr, Bptr, upperbound, (i*step));
     }
     std::cout << "\n[*] Threads running...";
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 24; i++)
     {
         threadarr[i].join();
     }
@@ -81,6 +81,12 @@ int main()
     //matrixA.print();
     //matrixB.print();
     //matrixCWT.print();
+
+    matrixA.deleteMatrix();
+    matrixB.deleteMatrix();
+    matrixCWT.deleteMatrix();
+
+    
     
 
 }

@@ -4,23 +4,25 @@
 
 using namespace Matrix;
 
+// 0,0 0,1 0,2
+// 1,0 1,1 1,2
+// => 0, 1, 2, 3, 4, 5
+// => numberOfColumns * currentRow + currentColumn
 
 	void matrix::createRandomMatrix() {
+		matrix = new float[m*n];
 		for (int r = 0; r < m; r++) {
-			matrix.push_back({});
 			for (int c = 0; c < n; c++) {
-				matrix[r].push_back({});
-				matrix[r][c] = rand() % 10;
+				matrix[n*r+c] = rand() % 10;
 			}
 		}
 	}
 
 	void matrix::createEmptyMatrix() {
+		matrix = new float[m*n];
 		for (int r = 0; r < m; r++) {
-			matrix.push_back({});
 			for (int c = 0; c < n; c++) {
-				matrix[r].push_back({});
-				matrix[r][c] = 0;
+				matrix[n * r + c] = 0;
 			}
 		}
 	}
@@ -28,9 +30,13 @@ using namespace Matrix;
 	void matrix::print() {
 		for (int r = 0; r < m; r++) {
 			for (int c = 0; c < n; c++) {
-				std::cout << matrix[r][c] << " ";
+				std::cout << matrix[n * r + c] << " ";
 			}
 			std::cout << "\n";
 		}
 		std::cout << "\n";
+	}
+
+	void matrix::deleteMatrix() {
+		delete[] matrix;
 	}
