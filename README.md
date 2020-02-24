@@ -20,5 +20,5 @@ Threaded: 21.499 ms
 
 Python
 __________________
-Single: 1177.62 s
+Single: 1177.62 s <br>
 Threaded: 73.42s
