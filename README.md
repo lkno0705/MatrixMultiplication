@@ -17,3 +17,8 @@ Threads: 0.460356 s
 CUDA
 __________________
 Threaded: 21.499 ms
+
+Python
+__________________
+Single: 1177.62 s
+Threaded: 73.42s
