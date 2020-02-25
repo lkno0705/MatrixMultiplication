@@ -1,9 +1,0 @@
-﻿  Matrix.cpp
-E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_C++\MatrixMultiplication\Matrix.cpp(16,28): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
-  MatrixMultiplication.cpp
-  Code wird generiert.
-  5 of 75 functions ( 6.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Codegenerierung ist abgeschlossen.
-  MatrixMultiplication.vcxproj -> E:\Programs\MatrixMultiplication-master\MatrixMultiplikation_C++\MatrixMultiplication\x64\Release\MatrixMultiplication.exe
