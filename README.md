@@ -3,6 +3,9 @@ Just a little playground, to test and try the benefits of Running Calculations o
 
 Compared Runtimes:
 
+Matrix size: 1440x1440
+Threads: 24
+
 
 ## Java:
 
