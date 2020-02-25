@@ -1,0 +1,8 @@
+**/.vscode/
+**/.idea/
+**/x64
+**/Debug
+**/out
+**/.vs
+**/__pycache__
+**/venv
