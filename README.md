@@ -30,3 +30,9 @@ Threaded: 73.42s
 
 Single: 7.061s <br>
 Threaded: 1.15s
+
+
+## Rust
+
+Single: 2.103s <br>
+Threaded: 0.496s
