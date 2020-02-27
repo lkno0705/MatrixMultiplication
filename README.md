@@ -14,8 +14,8 @@ Single: 7.769 s <br>
 Threads: 1.124 s
 
 ### Type float
-Single: 5.463 s <br>
-Threaded: 1.077s
+Single: 6.837 s <br>
+Threaded: 1.225s
 
 ## C++
 
