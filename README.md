@@ -36,3 +36,8 @@ Threaded: 1.15s
 
 Single: 2.103s <br>
 Threaded: 0.496s
+
+## C
+
+Single: 2.177s <br>
+Threaded: 0.456s
