@@ -2,7 +2,10 @@
 **/.idea/
 **/x64
 **/Debug
+**/Release
 **/out
 **/.vs
 **/__pycache__
 **/venv
+**/bin
+**/obj
