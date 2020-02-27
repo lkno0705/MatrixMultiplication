@@ -3,19 +3,20 @@ package matrixmult;
 public class MatrixThreadRunner implements Runnable {
     private Matrix matrixA;
     private Matrix matrixB;
+    private Matrix matrixC;
     private int upperBound;
     private int lowerBound;
 
-    MatrixThreadRunner(Matrix matrixA, Matrix matrixB, int upperBound, int lowerBound) {
+    MatrixThreadRunner(Matrix matrixA, Matrix matrixB, Matrix matrixC, int upperBound, int lowerBound) {
         this.matrixA = matrixA;
         this.matrixB = matrixB;
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
+        this.matrixC = matrixC;
     }
 
     public void run() {
         try {
-            Matrix matrixC = new Matrix(matrixA.getMatrix().length, matrixA.getMatrix()[0].length);
             for (int i = lowerBound; i < upperBound; i++) {
                 for (int k = 0; k < matrixB.getMatrix().length; k++) {
                     for (int j = 0; j < matrixA.getMatrix().length; j++) {
