@@ -9,8 +9,13 @@ Threads: 24
 
 ## Java:
 
+### Type int
 Single: 7.769 s <br>
 Threads: 1.124 s
+
+### Type float
+Single: 5.463 s <br>
+Threaded: 1.077s
 
 ## C++
 
