@@ -36,3 +36,7 @@ Threaded: 1.15s
 
 Single: 2.103s <br>
 Threaded: 0.496s
+
+## C#
+Single: 3.16s <br>
+Threaded: 0.515s
