@@ -8,16 +8,16 @@ namespace MatrixMultiplication
 {
     public unsafe struct Matrix
     {
-        private readonly int[] data;
+        private readonly float[] data;
 
         public Matrix(int m, int n)
         {
-            data = new int[m * n];
+            data = new float[m * n];
             M = m;
             N = n;
         }
 
-        public int this[int i, int j]
+        public float this[int i, int j]
         {
             set => data[i + M * j] = value;
             get => data[i + M * j];
@@ -35,7 +35,7 @@ namespace MatrixMultiplication
             {
                 for (int j = 0; j < n; ++j)
                 {
-                    matrix[i, j] = random.Next(10);
+                    matrix[i, j] = (float)random.NextDouble();
                 }
             }
 
@@ -55,13 +55,13 @@ namespace MatrixMultiplication
             {
                 Parallel.For(0, aM, i =>
                 {
-                    fixed (int* aData = a.data)
-                    fixed (int* bData = b.data)
-                    fixed (int* cData = c.data)
+                    fixed (float* aData = a.data)
+                    fixed (float* bData = b.data)
+                    fixed (float* cData = c.data)
                     {
                         for (int k = 0; k < bN; ++k)
                         {
-                            int sum = 0;
+                            float sum = 0f;
 
                             for (int j = 0; j < aN; ++j)
                             {
@@ -75,15 +75,15 @@ namespace MatrixMultiplication
             }
             else
             {
-                fixed (int* aData = a.data)
-                fixed (int* bData = b.data)
-                fixed (int* cData = c.data)
+                fixed (float* aData = a.data)
+                fixed (float* bData = b.data)
+                fixed (float* cData = c.data)
                 {
                     for (int i = 0; i < aM; ++i)
                     {
                         for (int k = 0; k < bN; ++k)
                         {
-                            int sum = 0;
+                            float sum = 0;
 
                             for (int j = 0; j < aN; ++j)
                             {
