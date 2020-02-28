@@ -28,8 +28,8 @@ Threaded: 21.499 ms
 
 ## Python
 
-Single: 1177.62 s <br>
-Threaded: 73.42s
+Single: 230.283s <br>
+Threaded: 17.304s
 
 ## Kotlin
 
