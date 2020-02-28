@@ -12,13 +12,13 @@ class Matrix:
         for i in range(self.m):
             self.matrix.append([])
             for j in range(self.n):
-                self.matrix[i].append(random.randint(0,10))
+                self.matrix[i].append(float(random.random()))
 
     def createEmptyMatrix(self):
         for i in range(self.m):
             self.matrix.append([])
             for j in range(self.n):
-                self.matrix[i].append(0)
+                self.matrix[i].append(float(0))
 
     def printout(self):
         for i in range(self.m):
