@@ -10,17 +10,17 @@ Threads: 24
 ## Java:
 
 ### Type int
-Single: 7.769 s <br>
-Threads: 1.124 s
+Single: 7.769s <br>
+Threads: 1.124s
 
 ### Type float
-Single: 6.837 s <br>
+Single: 6.837s <br>
 Threaded: 1.225s
 
 ## C++
 
-Single:  2.21483 s <br>
-Threads: 0.460356 s
+Single:  2.21483s <br>
+Threads: 0.460356s
 
 ## CUDA
 
