@@ -2,30 +2,40 @@ import Matrix
 import multiprocessing
 import time
 
+THREADS = 24
+
 def matrixMult(A, B, C, upperbound, lowerbound=0):
-    #print("Thread running with ub: ", upperbound, "lb: ", lowerbound)
+    b = B.matrix # 15% speedup
+    a_matrix = A.matrix # 1% speedup
+    c_matrix = C.matrix # 1% speedup
+    j_range = A.n # 1% speedup
+    k_range = B.n # 1% speedup
     for i in range(lowerbound, upperbound):
-        for k in range(B.n):
-            for j in range(A.n):
-                C.matrix[i][k] += A.matrix[i][j] * B.matrix[j][k]
-    #print("Tread finished")
+        a = a_matrix[i] # 15% speedup
+        c = c_matrix[i] # 5% speedup
+        for k in range(k_range):
+            summed = 0 # 10% speedup
+            for j in range(j_range):
+                summed += a[j] * b[j][k]
+            c[k] = summed
 
 def threaded(A, B, C):
     threads = []
-    step = int(A.m / 8)
+    step = int(A.m / THREADS)
 
-    for i in range(8):
-        if i == 7:
+    for i in range(THREADS):
+        if i == (THREADS - 1):
             threads.append(multiprocessing.Process(target=matrixMult, args=(A, B, C,A.m, i*step)))
-        threads.append(multiprocessing.Process(target=matrixMult, args=(A, B, C, ((i+1)*step), i*step)))
+        else:
+            threads.append(multiprocessing.Process(target=matrixMult, args=(A, B, C, ((i+1)*step), i*step)))
         threads[i].start()
 
-    for i in range(8):
+    for i in range(THREADS):
         threads[i].join()
 
 def main():
-    m = 540
-    n = 540
+    m = 1440
+    n = 1440
 
     A = Matrix.Matrix(m, n)
     B = Matrix.Matrix(m, n)

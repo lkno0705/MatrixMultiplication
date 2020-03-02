@@ -9,13 +9,18 @@ Threads: 24
 
 ## Java:
 
-Single: 7.769 s <br>
-Threads: 1.124 s
+### Type int
+Single: 7.769s <br>
+Threads: 1.124s
+
+### Type float
+Single: 6.837s <br>
+Threaded: 1.225s
 
 ## C++
 
-Single:  2.21483 s <br>
-Threads: 0.460356 s
+Single:  2.21483s <br>
+Threads: 0.460356s
 
 ## CUDA
 
@@ -23,8 +28,8 @@ Threaded: 21.499 ms
 
 ## Python
 
-Single: 1177.62 s <br>
-Threaded: 73.42s
+Single: 230.283s <br>
+Threaded: 17.304s
 
 ## Kotlin
 
@@ -36,3 +41,12 @@ Threaded: 1.15s
 
 Single: 2.103s <br>
 Threaded: 0.496s
+
+## C#
+Single: 3.16s <br>
+Threaded: 0.515s
+
+## C
+
+Single: 2.177s <br>
+Threaded: 0.456s

@@ -14,32 +14,33 @@ public class Main {
         try {
             Matrix matrixA = new Matrix(nA, mA);
             Matrix matrixB = new Matrix(nB, mB);
+            Matrix matrixCWT = new Matrix(mA, nB);
+            Matrix matrixCWOT = new Matrix(mA, nB);
 
             matrixA.randomize();
             matrixB.randomize();
 
             long startTimeWOT = System.currentTimeMillis();
-            Matrix matrixC = multMatrix(matrixA, matrixB, false);
+            matrixCWOT = multMatrix(matrixA, matrixB, matrixCWOT, false);
             System.out.println("Without Threading: " + ((System.currentTimeMillis() - startTimeWOT) / 1000.0) + " s");
 
             long startTimeWT = System.currentTimeMillis();
-            matrixC = multMatrix(matrixA, matrixB, true);
+            matrixCWT = multMatrix(matrixA, matrixB, matrixCWT, true);
             System.out.println("With Threading: " + ((System.currentTimeMillis() - startTimeWT) / 1000.0) + " s");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static Matrix multMatrix(Matrix a, Matrix b, boolean threading) throws Exception {
-        Matrix c = new Matrix(nA, nB);
+    private static Matrix multMatrix(Matrix a, Matrix b, Matrix c, boolean threading) throws Exception {
         if (threading) {
             Thread[] threads = new Thread[NUM_THREADS];
             int step = mA / NUM_THREADS;
             for (int i = 0; i < NUM_THREADS; i++) {
                 if (i == 23)
-                    threads[i] = new Thread(new MatrixThreadRunner(a, b, mA, i * step));
+                    threads[i] = new Thread(new MatrixThreadRunner(a, b, c, mA, i * step));
                 else
-                    threads[i] = new Thread(new MatrixThreadRunner(a, b, (i + 1) * step, i * step));
+                    threads[i] = new Thread(new MatrixThreadRunner(a, b, c, (i + 1) * step, i * step));
                 threads[i].start();
             }
             for (int i = 0; i < NUM_THREADS; i++) {
