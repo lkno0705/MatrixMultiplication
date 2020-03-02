@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"runtime"
 	"sync"
 	"time"
 )
@@ -57,9 +58,11 @@ func multiplyRangeInto(from int, to int, matA []float32, matB []float32, matC []
 
 func multiplyThreaded(matA []float32, matB []float32) []float32 {
 	var matC [1440 * 1440]float32
-	waitGroup.Add(8)
-	l := 1440 / 8
-	for i := 0; i < 8; i++ {
+	cpuCount := runtime.NumCPU()
+	fmt.Printf("Found %d CPU cores. \n", cpuCount)
+	waitGroup.Add(cpuCount)
+	l := 1440 / cpuCount
+	for i := 0; i < cpuCount; i++ {
 		go multiplyRangeInto(l*i, l*(i+1), matA, matB, matC[:])
 	}
 	waitGroup.Wait()
