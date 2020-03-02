@@ -6,7 +6,7 @@ class Matrix(n: Int, m: Int) {
     fun randomize() {
         val generator = Random(System.currentTimeMillis())
         for(r in matrix.indices) {
-            for(c in matrix[r].indices) matrix[r][c] = 2//generator.nextInt(0, 99)
+            for(c in matrix[r].indices) matrix[r][c] = generator.nextInt(0, 99)
         }
     }
 
