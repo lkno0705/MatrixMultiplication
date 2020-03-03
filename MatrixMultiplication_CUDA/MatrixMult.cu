@@ -63,8 +63,8 @@ void deleteMatrix(float* matrix) {
 
 int main() {
 
-	int m = 14400;
-	int n = 14400;
+	int m = 1440;
+	int n = 1440;
 	int block_size = 512;
 	
 	//float pointer initialisieren und Speicher für den Array reservieren
@@ -109,7 +109,7 @@ int main() {
 	auto stop = high_resolution_clock::now();
 
 	cudaMemcpy(h_matrixC, d_matrixC, (m * n) * sizeof(float), cudaMemcpyDeviceToHost);
-	std::cout << "\n[+] Single Core calculation finished \n[+] Duration: " << duration<double>(stop - start).count() << " seconds";
+	std::cout << "\n[+] Multithreaded calculation finished \n[+] Duration: " << duration<double>(stop - start).count() << " seconds";
 
 	/*print(h_matrixC, m, n);*/
 
