@@ -6,6 +6,7 @@
 **/out
 **/.vs
 **/__pycache__
+**/lib
 **/venv
 **/bin
 **/obj
