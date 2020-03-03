@@ -1,6 +1,5 @@
 package matrixmult;
 
-
 public class Main {
 
     // Initialization parameters

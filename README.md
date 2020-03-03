@@ -11,7 +11,7 @@ Threads: 24
 
 ### Type int
 Single: 7.769s <br>
-Threads: 1.124s
+Threaded: 1.124s
 
 ### Type float
 Single: 6.837s <br>
@@ -20,7 +20,7 @@ Threaded: 1.225s
 ## C++
 
 Single:  2.21483s <br>
-Threads: 0.460356s
+Threaded: 0.460356s
 
 ## CUDA
 
