@@ -33,7 +33,7 @@ Threaded: 17.304s
 
 ## Kotlin
 
-Single: 7.061s <br>
+Single: 6.5s <br>
 Threaded: 1.15s
 
 
