@@ -50,3 +50,9 @@ Threaded: 0.515s
 
 Single: 2.177s <br>
 Threaded: 0.456s
+
+
+## GO
+
+Single: 2.556s <br>
+Threaded: 0.4934s
