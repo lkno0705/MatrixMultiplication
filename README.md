@@ -59,5 +59,5 @@ Threaded: 0.4934s
 
 ## x64 NASM
 
-Single: 2.163s <br>
+Single: 2.363s <br>
 Threaded: 0.507s
