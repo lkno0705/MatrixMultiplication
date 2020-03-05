@@ -2,6 +2,7 @@
 //
 #include "Matrix.h"
 #include "nmmintrin.h"
+#include "immintrin.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -13,15 +14,18 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
     for (int i = lowerbound; i < upperbound; i++){
 
         for (int k = 0; k < Bptr->n; k += 4){
+            float zero = 0;
+            __m128 sum = _mm_broadcast_ss(&zero);
 
             for (int j = 0; j < Aptr->n; j++){
-;               __m128 a = _mm_set1_ps(*Aptr->matrix + Aptr->n * i + j);
+                __m128 a = _mm_broadcast_ss(Aptr->matrix + Aptr->n * i + j);
                 __m128* b = (__m128*) (Bptr->matrix + (Bptr->n * j + k));
                 __m128* c = (__m128*) (Cptr->matrix + Cptr->n * i + k);
                 __m128 product = _mm_mul_ps(a, *b);
-                _mm_store_ps(Cptr->matrix+Cptr->n*i+k, _mm_add_ps(*c, product));
+                sum = _mm_add_ps(sum, _mm_add_ps(*c, product));
                 //std::cout << "running..."<<i;
             }
+            _mm_store_ps(Cptr->matrix + Cptr->n * i + k, sum);
         }
     }
     return;
