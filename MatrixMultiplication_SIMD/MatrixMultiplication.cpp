@@ -20,9 +20,8 @@ void matrixmult(Matrix::matrix* Cptr, Matrix::matrix* Aptr, Matrix::matrix* Bptr
             for (int j = 0; j < Aptr->n; j++){
                 __m128 a = _mm_broadcast_ss(Aptr->matrix + Aptr->n * i + j);
                 __m128* b = (__m128*) (Bptr->matrix + (Bptr->n * j + k));
-                __m128* c = (__m128*) (Cptr->matrix + Cptr->n * i + k);
                 __m128 product = _mm_mul_ps(a, *b);
-                sum = _mm_add_ps(sum, _mm_add_ps(*c, product));
+                sum = _mm_add_ps(sum, product);
                 //std::cout << "running..."<<i;
             }
             _mm_store_ps(Cptr->matrix + Cptr->n * i + k, sum);
