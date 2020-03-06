@@ -1,27 +1,34 @@
 <?php
     $num_threads = 24;
-    $rows = 1440;
-    $cols = 1440;
+    $rows = 140;
+    $cols = 140;
 
     // Initialize objects
     echo("Initializing ...");
     $matrixA = new Matrix();
     $matrixB = new Matrix();
-    $result = new Matrix();
+    $result_single = new Matrix();
+    $result_multi = new Matrix();
 
     $matrixA->randomize();
     $matrixB->randomize();
-    $result->initialize();
+    $result_single->initialize();
+    $result_multi->initialize();
 
+    // Single thread
     echo("Starting benchmark ...");
     $start_time = microtime(true);
-    $result = multiply($matrixA, $matrixB, $result, false);
+    $result_single = multiply($matrixA, $matrixB, $result_single, false);
     $end_time = microtime(true);
     $duration = round(($end_time - $start_time) / 1000000, 2);
     echo("Without Threading: $duration");
 
-    // TODO: Add threaded version here
-
+    // Multiple threads
+    $start_time = microtime(true);
+    $result_multi = multiply($matrixA, $matrixB, $result_multi, true);
+    $end_time = microtime(true);
+    $duration = round(($end_time - $start_time) / 1000000, 2);
+    echo("With Threading: $duration");
     exit;
 
     // --------------------- Functions -------------------------
@@ -30,7 +37,18 @@
         global $rows, $cols, $num_threads;
 
         if($threaded) {
-            // TODO: Add threaded version here
+            $threads = array();
+            $step = $rows / $num_threads;
+            for($i = 0; $i < $num_threads; $i++) {
+                if($i == 23)
+                    $threads[] = new MatrixThread($a, $b, $c, $rows, $i * $step);
+                else
+                    $threads[] = new MatrixThread($a, $b, $c, ($i + 1) * $step, $i * $step);
+                end($threads)->start();
+            }
+            for($i = 0; $i < $num_threads; $i++) {
+                $threads[$i]->join();
+            }
         } else {
             for($i = 0; $i < $rows; $i++) {
                 for($k = 0; $k < $cols; $k++) {
@@ -38,7 +56,6 @@
                         $c->getMatrix()[$i][$k] += $a->getMatrix()[$i][$j] * $b->getMatrix()[$j][$k];
                     }
                 }
-                echo($i);
             }
             return $c;
         }
@@ -73,6 +90,34 @@
 
         function getMatrix() {
             return $this->matrix;
+        }
+    }
+
+    class MatrixThread extends Thread {
+        var $matrixA;
+        var $matrixB;
+        var $matrixC;
+        var $upperBound;
+        var $lowerBound;
+
+        public function __construct($matrixA, $matrixB, $matrixC, $upperBound, $lowerBound) {
+            $this->matrixA = $matrixA;
+            $this->matrixB = $matrixB;
+            $this->matrixC = $matrixC;
+            $this->upperBound = $upperBound;
+            $this->lowerBound = $lowerBound;
+        }
+
+        public function run() {
+            global $rows, $cols;
+
+            for($i = $lowerBound; $i < $upperBound; $i++) {
+                for($k = 0; $k < count($matrixB->getMatrix()); $k++) {
+                    for($j = 0; $j < count($matrixA->getMatrix()); $j++) {
+                        $c->getMatrix()[$i][$k] += $a->getMatrix()[$i][$j] * $b->getMatrix()[$j][$k];
+                    }
+                }
+            }
         }
     }
 ?>
