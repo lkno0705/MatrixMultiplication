@@ -61,3 +61,8 @@ Threaded: 0.4934s
 
 Single: 2.363s <br>
 Threaded: 0.507s
+
+## PHP
+
+Single: -<br>
+Threaded: -
