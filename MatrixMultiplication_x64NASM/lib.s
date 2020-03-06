@@ -87,6 +87,7 @@ parMatmul:; only for square matrices, rcx = pointer to c, rdx = pointer to b, r8
  call   GetSystemInfo
  add    rsp, 32
  mov    eax, [SystemInfo + 32]
+ sar    eax, 1
  mov    dword [ProcessorCount], eax
  mov    esi, dword [ProcessorCount] ; rsi = i+1
  mov    rax, r12
@@ -238,11 +239,11 @@ matmul:; only for square matrices, rcx = pointer to c, rdx = pointer to b, r8 = 
  mov    rbp, r9
  xor    r15, r15 ; holds i
 matmulI:
- mov    r14, r9 ; holds k
+ lea    r14, [r9 - 3] ; holds k
 
  mov    rax, r15
  mul    r9
- mov    r11, rax
+ lea    r11, [rax + r14 - 1]
 matmulK:
  pxor   xmm2, xmm2
 
@@ -253,25 +254,24 @@ matmulK:
  mov    rdi, rax ; holds n*i
 
  lea    rsi, [r14 - 1] ; holds k for b addr
-align 64 ; don't know if this helps but shouldn't hurt
+;align 64 ; don't know if this helps but doesn't hurt remarkably
 matmulJ:
- movss  xmm0, dword [4*rdi + r8]; xmm0 = a[n*i + j]
+ vbroadcastss   xmm0, dword [4*rdi + r8] ; xmm0 = a[n*i + j]
  add    rdi, 1
  
- movss  xmm1,  dword [4*rsi + r10]; xmm1 = b[n*j + k]
+ movaps  xmm1, [4*rsi + r10]; xmm1 = b[n*j + k]
  add    rsi, r9
 
- mulss  xmm0, xmm1
- addss  xmm2, xmm0
+ vfmadd231ps  xmm2, xmm0, xmm1
 
  sub    r13, 1
  jnz    matmulJ
 
- movss  dword [4*r11 + rcx], xmm2; c[n*i + k] = xmm2
- add    r11, 1
+ movntps  [4*r11 + rcx], xmm2; c[n*i + k] = xmm2
+ sub    r11, 4
 
- sub    r14, 1
- jnz    matmulK
+ sub    r14, 4
+ ja     matmulK
 
  add    r15, 1
  cmp    r15, rbp
