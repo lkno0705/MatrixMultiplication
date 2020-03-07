@@ -1,7 +1,7 @@
 <?php
     $num_threads = 24;
-    $rows = 140;
-    $cols = 140;
+    $rows = 240;
+    $cols = 240;
 
     // Initialize objects
     echo("Initializing ...");
@@ -12,6 +12,7 @@
 
     $matrixA->randomize();
     $matrixB->randomize();
+
     $result_single->initialize();
     $result_multi->initialize();
 
@@ -20,14 +21,14 @@
     $start_time = microtime(true);
     $result_single = multiply($matrixA, $matrixB, $result_single, false);
     $end_time = microtime(true);
-    $duration = round(($end_time - $start_time) / 1000000, 2);
+    $duration = round(($end_time - $start_time), 2);
     echo("Without Threading: $duration");
 
     // Multiple threads
     $start_time = microtime(true);
-    $result_multi = multiply($matrixA, $matrixB, $result_multi, true);
+    $result_multi = multiply($matrixA, $matrixB, $result_multi, false);
     $end_time = microtime(true);
-    $duration = round(($end_time - $start_time) / 1000000, 2);
+    $duration = round(($end_time - $start_time), 2);
     echo("With Threading: $duration");
     exit;
 
@@ -50,11 +51,16 @@
                 $threads[$i]->join();
             }
         } else {
+            $b_matrix = $b->getMatrix();
             for($i = 0; $i < $rows; $i++) {
+                $a_row = $a->getMatrix()[$i];
+                $c_row = $c->getMatrix()[$i];
                 for($k = 0; $k < $cols; $k++) {
+                    $sum = 0;
                     for($j = 0; $j < $cols; $j++) {
-                        $c->getMatrix()[$i][$k] += $a->getMatrix()[$i][$j] * $b->getMatrix()[$j][$k];
+                        $sum += $a_row[$j] * $b_matrix[$j][$k];
                     }
+                    $c_row[$k] = $sum;
                 }
             }
             return $c;
