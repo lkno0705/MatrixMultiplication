@@ -12,8 +12,9 @@
 
     $matrixA->randomize();
     $matrixB->randomize();
-    // $result_single->initialize();
-    // $result_multi->initialize(); // not needed anymore because of new summation
+
+    $result_single->initialize();
+    $result_multi->initialize();
 
     // Single thread
     echo("Starting benchmark ...");
@@ -62,13 +63,6 @@
                     $c_row[$k] = $sum;
                 }
             }
-            /*for($i = 0; $i < $rows; $i++) {
-                for($k = 0; $k < $cols; $k++) {
-                    for($j = 0; $j < $cols; $j++) {
-                        $c->getMatrix()[$i][$k] += $a->getMatrix()[$i][$j] * $b->getMatrix()[$j][$k];
-                    }
-                }
-            }*/
             return $c;
         }
     }
