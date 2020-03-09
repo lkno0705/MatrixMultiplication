@@ -78,3 +78,9 @@ Threaded: -
 
 Single: 3.171s <br>
 Threaded: 0.576
+
+## Excel VBA
+
+Matrix size: 340x340 <br>
+Single: 936s <br>
+Threaded: - Not supported
