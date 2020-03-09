@@ -262,7 +262,9 @@ matmulJ:
  movaps  xmm1, [4*rsi + r10]; xmm1 = b[n*j + k]
  add    rsi, r9
 
- vfmadd231ps  xmm2, xmm0, xmm1
+ ;vfmadd231ps  xmm2, xmm0, xmm1
+ mulps xmm0, xmm1
+ addps xmm2, xmm0
 
  sub    r13, 1
  jnz    matmulJ

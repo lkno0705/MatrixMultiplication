@@ -1,7 +1,7 @@
 <?php
     $num_threads = 24;
-    $rows = 240;
-    $cols = 240;
+    $rows = 1440;
+    $cols = 1440;
 
     // Initialize objects
     echo("Initializing ...");
