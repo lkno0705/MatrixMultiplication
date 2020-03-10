@@ -84,3 +84,13 @@ Threaded: 0.576
 Matrix size: 340x340 <br>
 Single: 936s <br>
 Threaded: - Not supported
+
+## F#
+
+Single: 2.923s <br>
+Threaded: 0.518s
+
+## JS
+
+Single: 14.25618s <br>
+Threaded: -
