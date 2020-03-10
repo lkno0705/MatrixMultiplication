@@ -22,6 +22,12 @@ Threaded: 1.225s
 Single:  2.21483s <br>
 Threaded: 0.460356s
 
+### SIMD
+
+Single:  0.5412s <br>
+Threaded: 0.1225s
+
+
 ## CUDA
 
 Threaded: 21.499 ms
@@ -59,10 +65,22 @@ Threaded: 0.4934s
 
 ## x64 NASM
 
-Single: 2.363s <br>
-Threaded: 0.507s
+Single: 0.621s <br>
+Threaded: 0.100s
 
 ## PHP
 
-Single: -<br>
+Single: 160.47s <br>
 Threaded: -
+
+
+## Julia 
+
+Single: 3.171s <br>
+Threaded: 0.576
+
+## Excel VBA
+
+Matrix size: 340x340 <br>
+Single: 936s <br>
+Threaded: - Not supported
