@@ -9,7 +9,10 @@
 **/lib
 **/venv
 **/bin
+**/build
 **/obj
 *.pyc
 *.pyo
 *.pyd
+*.o
+*.out
