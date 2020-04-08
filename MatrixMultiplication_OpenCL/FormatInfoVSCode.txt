@@ -1,0 +1,1 @@
+{ BasedOnStyle: Google, IndentWidth: 4, AccessModifierOffset: -4, NamespaceIndentation: All, PointerAlignment: Left,  ColumnLimit: 0}
