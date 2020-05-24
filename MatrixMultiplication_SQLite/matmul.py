@@ -3,7 +3,7 @@ import random
 import time
 
 def main():
-    n = 1440
+    n = 340
     
     conn = sqlite3.connect(":memory:")
 

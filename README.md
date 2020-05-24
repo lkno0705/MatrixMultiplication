@@ -80,3 +80,7 @@ Threaded: -
 ## OpenCL
 Single: Has to be tested <br>
 Threaded: Has to be tested
+
+## SQLite
+Matrix size: 340x340
+Single: 41.61s
