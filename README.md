@@ -69,6 +69,11 @@ Matrix size: 340x340 <br>
 Single: 936s <br>
 Threaded: - Not supported
 
+## XSLT
+Matrix size: 340x340 <br>
+Firefox: 4 837s <br>
+Chrome: 10 550s
+
 ## F#
 Single: 2.923s <br>
 Threaded: 0.518s
