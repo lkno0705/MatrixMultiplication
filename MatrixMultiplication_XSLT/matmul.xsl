@@ -13,32 +13,20 @@ xmlns:exsl="http://exslt.org/common">
         <xsl:for-each select="/multiplication/a/row">
             <xsl:variable name="a-row" select="position()" />
             <tr>
-                <xsl:for-each select="/multiplication/b/row[position() = 1]/col">
+                <xsl:for-each select="/multiplication/b/row[1]/col">
                     <xsl:variable name="col-pos" select="position()" />
                     <td>
                         <!-- Cell $a-row, $col-pos of axb -->
                         <xsl:variable name="to-sum">
                             <!-- for all values of the $a-rowth row of a -->
-                            <xsl:for-each select="/multiplication/a/row">
-                                <xsl:if test="$a-row = position()">
-                                    <xsl:for-each select="col">
-                                        <xsl:variable name="a-col" select="position()"/>
-                                        <xsl:variable name="a-val" select="val"/>
-                                        <!-- for all values of the $col-posth col of b -->
-                                        <xsl:for-each select="/multiplication/b/row">
-                                            <xsl:if test="position() = $a-col">
-                                                <xsl:for-each select="col">
-                                                    <xsl:if test="position() = $col-pos">
-                                                        <xsl:element name="x">
-                                                            <xsl:value-of select="val * $a-val" />
-                                                        </xsl:element>
-                                                    </xsl:if>
-                                                </xsl:for-each>
-                                            </xsl:if>
-                                        </xsl:for-each>
-
-                                    </xsl:for-each>
-                                </xsl:if>
+                            <xsl:for-each select="/multiplication/a/row[$a-row]/col">
+                                <xsl:variable name="a-col" select="position()"/>
+                                <xsl:variable name="a-val" select="val"/>
+                                <!-- for all values of the $col-posth col of b -->
+                                <xsl:variable name="val" select="/multiplication/b/row[$a-col]/col[$col-pos]" />
+                                <xsl:element name="x">
+                                    <xsl:value-of select="$val * $a-val" />
+                                </xsl:element>
                             </xsl:for-each>
                         </xsl:variable>
                         <!-- sum of the products selected before -->
