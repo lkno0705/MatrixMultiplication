@@ -71,8 +71,8 @@ Threaded: - Not supported
 
 ## XSLT
 Matrix size: 340x340 <br>
-Firefox: 4 837s <br>
-Chrome: 10 550s
+Firefox: 1 801s <br>
+Chrome: 4 101s
 
 ## F#
 Single: 2.923s <br>
