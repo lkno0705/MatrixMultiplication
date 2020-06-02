@@ -1,12 +1,12 @@
-void kernel MatMul(const __global float *a, const __global float *b, __global float *c, const int m, const int n, const int k) {
-    const int globalRow = get_global_id(0); //M
-    const int globalCol = get_global_id(1); //N
+void kernel MatMul(const __global float *a, const __global float *b, __global float *c, const int n) {
+    const int globalRow = get_global_id(0);
+    const int globalCol = get_global_id(1);
 
     float value = 0;
-    for (int i = 0; i < k; i++) //K
+    for (int i = 0; i < n; i++)
     {
-        value += a[i * m + globalRow] * b[i + k * globalCol];
+        value += a[i * n + globalRow] * b[i + n * globalCol];
     }
         
-    c[globalCol * m + globalRow] = value;
+    c[globalCol * n + globalRow] = value;
 }
