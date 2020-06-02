@@ -1,11 +1,12 @@
 #include <CL/cl2.hpp>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <chrono>
 
-void MatMul(float* matA, float* matB, float* matC, int m, int n, int k) {
+
+void MatMul(float* matA, float* matB, float* matC, int n, int localSize) {
     std::vector<cl::Platform> platforms;
     cl::Platform::get(&platforms);
     if (platforms.size() == 0) {
@@ -49,29 +50,29 @@ void MatMul(float* matA, float* matB, float* matC, int m, int n, int k) {
     cl::CommandQueue queue(context, defaultDevice);
     cl::Kernel GemmKernel = cl::Kernel(program, "MatMul");
 
-    cl::Buffer bufferA(context, CL_MEM_READ_WRITE, sizeof(float) * k * m);
-    cl::Buffer bufferB(context, CL_MEM_READ_WRITE, sizeof(float) * k * n);
-    cl::Buffer bufferC(context, CL_MEM_READ_WRITE, sizeof(float) * n * m);
+    cl::Buffer bufferA(context, CL_MEM_READ_ONLY, sizeof(float) * n * n);
+    cl::Buffer bufferB(context, CL_MEM_READ_ONLY, sizeof(float) * n * n);
+    cl::Buffer bufferC(context, CL_MEM_READ_WRITE, sizeof(float) * n * n);
 
-    queue.enqueueWriteBuffer(bufferA, CL_TRUE, 0, sizeof(float) * k * m, matA);
-    queue.enqueueWriteBuffer(bufferB, CL_TRUE, 0, sizeof(float) * k * n, matB);
-    queue.enqueueWriteBuffer(bufferC, CL_TRUE, 0, sizeof(float) * n * m, matC);
+    queue.enqueueWriteBuffer(bufferA, CL_TRUE, 0, sizeof(float) * n * n, matA);
+    queue.enqueueWriteBuffer(bufferB, CL_TRUE, 0, sizeof(float) * n * n, matB);
 
     GemmKernel.setArg(0, bufferA);
     GemmKernel.setArg(1, bufferB);
     GemmKernel.setArg(2, bufferC);
-    GemmKernel.setArg(3, m);
-    GemmKernel.setArg(4, n);
-    GemmKernel.setArg(5, k);
+    GemmKernel.setArg(3, n);
 
-    cl::NDRange globalRange(m, n);
-    int localMaxRange = defaultDevice.getInfo<CL_DEVICE_MAX_WORK_ITEM_SIZES>()[0];
-    cl::NDRange localRange(32, 32);
+    cl::NDRange globalRange(n, n);
+    cl::NDRange localRange(localSize, localSize);
 
-    std::cout << "Starting kernel on GPU" << "\n";
+    std::cout << "Starting kernel on GPU"
+              << "\n";
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     queue.enqueueNDRangeKernel(GemmKernel, cl::NullRange, globalRange, localRange);
-    queue.enqueueReadBuffer(bufferC, CL_TRUE, 0, sizeof(float) * n * m, matC);
+    queue.finish();
+
+    queue.enqueueReadBuffer(bufferC, CL_TRUE, 0, sizeof(float) * n * n, matC);
     int timeInMs = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-    std::cout << "Kernel finished in: " << timeInMs << "ms" << "\n";
+    std::cout << "Kernel finished in: " << timeInMs << "ms"
+              << "\n";
 }
