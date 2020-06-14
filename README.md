@@ -89,3 +89,7 @@ Threaded: Has to be tested
 ## SQLite
 Matrix size: 340x340
 Single: 41.61s
+
+## ABAP
+6 Work processes
+317,02s
