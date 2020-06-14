@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>Function group for matrix utilities</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZFG_MATRIXTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZFG_MATRIX</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZFM_CALC_VALUES</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>Calculate values</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IT_MATRIX_A</PARAMETER>
+       <TYP>ZTMATRIX_PAR</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IT_MATRIX_B</PARAMETER>
+       <TYP>ZTMATRIX_PAR</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_M</PARAMETER>
+       <TYP>INT4</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_N</PARAMETER>
+       <TYP>INT4</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_NR_WP</PARAMETER>
+       <TYP>INT4</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_START</PARAMETER>
+       <TYP>INT4</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>ET_RESULT</PARAMETER>
+       <TYP>ZTMATRIX_PAR</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IT_MATRIX_A</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Matrix A</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IT_MATRIX_B</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Matrix B</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_M</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Number of lines</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_N</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Number of columns</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_NR_WP</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Number of work processes</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_START</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Start line</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ET_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Result table</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
