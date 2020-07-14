@@ -93,3 +93,8 @@ Single: 41.61s
 ## ABAP
 6 Work processes
 317,02s
+
+## TCL
+24 Threads, PC crashes afterwards, uses >>16GB RAM
+(might need improvements)
+488,04s
