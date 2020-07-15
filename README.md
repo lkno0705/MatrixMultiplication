@@ -95,6 +95,5 @@ Single: 41.61s
 317,02s
 
 ## TCL
-24 Threads, PC crashes afterwards, uses >>16GB RAM
-(might need improvements)
-488,04s
+24 Threads
+170,69s
