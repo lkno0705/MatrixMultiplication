@@ -45,13 +45,13 @@ for {set index 0} { $index < $threads } { incr index } {
     append script "set upper $upper\n"
 
     append script {
-        set a [tsv::get a a]
         set b [tsv::get b b]
         for {set i $lower} { $i < $upper } { incr i } {
+            set a_row [tsv::lrange a a [expr {$n * $i}] [expr {$n * $i + $n}]]
             for {set k 0} { $k < $p } { incr k } {
                 set sum 0
                 for {set j 0} { $j < $n } { incr j } {
-                    set sum [expr {$sum + [lindex $a [expr {$n * $i + $j}]] + [lindex $b [expr {$p * $j + $k}]]}]
+                    set sum [expr {$sum + [lindex $a_row $j] + [lindex $b [expr {$p * $j + $k}]]}]
                 }
                 tsv::array set c [expr {$p * $i + $k}] $sum
             }
