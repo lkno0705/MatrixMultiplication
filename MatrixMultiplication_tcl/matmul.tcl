@@ -56,7 +56,6 @@ for {set index 0} { $index < $threads } { incr index } {
                 tsv::array set c [expr {$p * $i + $k}] $sum
             }
         }
-        unset a
         unset b
     }
     set jid [tpool::post $tp $script]
