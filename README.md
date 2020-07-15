@@ -89,3 +89,7 @@ Threaded: Has to be tested
 ## SQLite
 Matrix size: 340x340
 Single: 41.61s
+
+## TCL
+24 Threads
+170,69s
