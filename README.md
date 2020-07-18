@@ -93,3 +93,6 @@ Single: 41.61s
 ## TCL
 24 Threads
 170,69s
+
+## Lua
+Has to be tested
