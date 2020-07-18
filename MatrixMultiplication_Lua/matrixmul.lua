@@ -1,38 +1,33 @@
-function main()
-    -- multiply random matrices with the size m x n * n x p  
-    local m = 244;
-    local n = 244;
-    local p = 244;
+-- multiply random matrices with the size m x n * n x p  
+m = 1440;
+n = 1440;
+p = 1440;
 
+function single()
     local a = randomMatrix(m, n)
     local b = randomMatrix(n, p)
     local c = {}
     
-    for row=0,(m-1) do
-        for col=0,(p-1) do
+    for row=1,m do
+        for col=1,p do
             local sum = 0
-            for k=0,(n-1) do
-                -- print(((row*n) + col) .. " > " .. ((row*n) + k) .. "," .. ((k*p) + col))
-                sum = sum + (a[row*n + k] * b[k*p + col])
+            for k=1,n do
+                sum = sum + (a[(row-1)*n + k] * b[(k-1)*p + col])
             end
-            c[row*n + col] = sum
+            c[(row-1)*n + col] = sum
         end
-    end
-
-    for k=0,(m*p -1) do
-        -- print(c[k])
     end
 end
 
 function randomMatrix(size_m, size_n)
     a = {}
-    for i=0,(size_m*size_n -1) do
+    for i=1,(size_m*size_n) do
         a[i] = math.random()
     end
     return a
 end
 
-t_start = os.time()
-main()
-t_end = os.time()
-print("Time: " .. (t_end - t_start))
+t_start = os.clock()
+single()
+t_end = os.clock()
+print("Single: " .. (t_end-t_start) .. "s")
