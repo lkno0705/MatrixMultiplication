@@ -54,66 +54,54 @@ namespace MatrixMultiplication
 
             if (multiThreaded)
             {
-                GCHandle aHandle = GCHandle.Alloc(a.data, GCHandleType.Pinned);
-                float* aData = (float*)aHandle.AddrOfPinnedObject();
-                GCHandle bHandle = GCHandle.Alloc(b.data, GCHandleType.Pinned);
-                float* bData = (float*)bHandle.AddrOfPinnedObject();
-                GCHandle cHandle = GCHandle.Alloc(c.data, GCHandleType.Pinned);
-                float* cData = (float*)cHandle.AddrOfPinnedObject();
-
                 Parallel.For(0, aM, i =>
                 {
-                    
-                    for (int k = 0; k < bN; k += 4)
+                    fixed (float* aData = a.data)
+                    fixed (float* bData = b.data)
+                    fixed (float* cData = c.data)
                     {
-                        var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
-
-                        for (int j = 0; j < aN; ++j)
+                        for (int k = 0; k < bN; k += 4)
                         {
-                            var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
-                            var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
-                            var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
-                            sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
-                        }
+                            var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
 
-                        System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
+                            for (int j = 0; j < aN; ++j)
+                            {
+                                var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
+                                var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
+                                var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
+                                sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
+                            }
+
+                            System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
+                        }
                     }
                 });
-
-                aHandle.Free();
-                bHandle.Free();
-                cHandle.Free();
             }
             else
             {
-                GCHandle aHandle = GCHandle.Alloc(a.data, GCHandleType.Pinned);
-                float* aData = (float*)aHandle.AddrOfPinnedObject();
-                GCHandle bHandle = GCHandle.Alloc(b.data, GCHandleType.Pinned);
-                float* bData = (float*)bHandle.AddrOfPinnedObject();
-                GCHandle cHandle = GCHandle.Alloc(c.data, GCHandleType.Pinned);
-                float* cData = (float*)cHandle.AddrOfPinnedObject();
-
-                for (int i = 0; i < aM; ++i)
+                fixed (float* aData = a.data)
+                fixed (float* bData = b.data)
+                fixed (float* cData = c.data)
                 {
-                    for (int k = 0; k < bN; k += 4)
+                    for (int i = 0; i < aM; ++i)
                     {
-                        var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
-
-                        for (int j = 0; j < aN; ++j)
+                        for (int k = 0; k < bN; k += 4)
                         {
-                            var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
-                            var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
-                            var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
-                            sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
-                        }
+                            var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
 
-                        System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
+                            for (int j = 0; j < aN; ++j)
+                            {
+                                var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
+                                var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
+                                var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
+                                sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
+                            }
+
+                            System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
+                        }
                     }
                 }
-
-                aHandle.Free();
-                bHandle.Free();
-                cHandle.Free();
+                
             }
 
             return c;
