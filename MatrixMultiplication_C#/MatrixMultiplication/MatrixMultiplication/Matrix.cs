@@ -50,6 +50,7 @@ namespace MatrixMultiplication
             int aN = a.N;
 
             Matrix c = new Matrix(aN, bN);
+            int cN = c.N;
 
             if (multiThreaded)
             {
@@ -59,16 +60,19 @@ namespace MatrixMultiplication
                     fixed (float* bData = b.data)
                     fixed (float* cData = c.data)
                     {
-                        for (int k = 0; k < bN; ++k)
+                        for (int k = 0; k < bN; k += 4)
                         {
-                            float sum = 0f;
+                            var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
 
                             for (int j = 0; j < aN; ++j)
                             {
-                                sum += aData[i + aM * j] * bData[j + bM * k];
+                                var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
+                                var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
+                                var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
+                                sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
                             }
 
-                            cData[i + aN * k] = sum;
+                            System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
                         }
                     }
                 });
@@ -81,16 +85,19 @@ namespace MatrixMultiplication
                 {
                     for (int i = 0; i < aM; ++i)
                     {
-                        for (int k = 0; k < bN; ++k)
+                        for (int k = 0; k < bN; k += 4)
                         {
-                            float sum = 0;
+                            var sum = System.Runtime.Intrinsics.Vector128.CreateScalarUnsafe(0f);
 
                             for (int j = 0; j < aN; ++j)
                             {
-                                sum += aData[i + aM * j] * bData[j + bM * k];
+                                var avec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(aData + aN * i + j);
+                                var bvec = System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector128(bData + bN * j + k);
+                                var product = System.Runtime.Intrinsics.X86.Sse.Multiply(avec, bvec);
+                                sum = System.Runtime.Intrinsics.X86.Sse.Add(sum, product);
                             }
 
-                            cData[i + aN * k] = sum;
+                            System.Runtime.Intrinsics.X86.Sse.Store(cData + cN * i + k, sum);
                         }
                     }
                 }
