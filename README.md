@@ -1,10 +1,9 @@
 # MatrixMultiplication
 Just a little playground, to test and try the benefits of Running Calculations on CPU or GPU with multiple threads.
 
-Compared Runtimes:
-
-Matrix size: 1440x1440 <br>
-Threads: 24
+## System stats for the compared run:
+Default matrix size: 1440x1440 <br>
+Thread count: 24
 
 ## Java:
 ### Type int
@@ -19,12 +18,12 @@ Threaded: 1.225s
 Single:  2.21483s <br>
 Threaded: 0.460356s
 
-### SIMD
+## SIMD
 Single:  0.5412s <br>
 Threaded: 0.1225s
 
 ## CUDA
-Single: -
+Single: - <br>
 Threaded: 21.499 ms
 
 ## Python
@@ -59,18 +58,15 @@ Threaded: 0.100s
 Single: 160.47s <br>
 Threaded: -
 
-
 ## Julia 
 Single: 3.171s <br>
 Threaded: 0.576
 
-## Excel VBA
-Matrix size: 340x340 <br>
+## Excel VBA (Matrix size: 340x340)
 Single: 936s <br>
-Threaded: - Not supported
+Threaded: - (Not supported)
 
-## XSLT
-Matrix size: 340x340 <br>
+## XSLT (Matrix size: 340x340)
 Firefox: 1 801s <br>
 Chrome: 4 101s
 
@@ -83,16 +79,21 @@ Single: 14.25618s <br>
 Threaded: -
 
 ## OpenCL
-Single: Has to be tested <br>
-Threaded: Has to be tested
+Single: To be tested <br>
+Threaded: To be tested
 
-## SQLite
-Matrix size: 340x340
-Single: 41.61s
+## SQLite (Matrix size: 340x340)
+Single: 41.61s <br>
+Threaded: -
 
 ## TCL
-24 Threads
-170,69s
+Single: - <br>
+Threaded: 170,69s
 
 ## Lua
-Has to be tested
+Single: To be tested <br>
+Threaded: To be tested
+
+## Zig
+Single: To be tested <br>
+Threaded: To be tested
