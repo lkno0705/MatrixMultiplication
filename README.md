@@ -3,7 +3,9 @@ Just a little playground, to test and try the benefits of Running Calculations o
 
 ## System stats for the compared run:
 Default matrix size: 1440x1440 <br>
-Thread count: 24
+Thread count: 24 <br>
+CPU: Ryzen 9 3900X <br>
+GPU: Nvidia RTX 2070Super
 
 ## Java:
 ### Type int
